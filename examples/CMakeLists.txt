@@ -7,3 +7,4 @@ endfunction()
 
 setup_example(DDA)
 setup_example(FloodFill4way)
+setup_example(Bresenham)
