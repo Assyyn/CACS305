@@ -79,13 +79,22 @@ void draw_line_Bresenhams(Image  &image,
 
 int main()
 {
-    constexpr int image_height = 200;
-    constexpr int image_width  = 200;
+    constexpr int image_height = 1'920;
+    constexpr int image_width  = 1'080;
     Image         image {image_width, image_height};
 
-    draw_line_Bresenhams(image,
-                         {0, image_height / 2},
-                         {image_width, image_height / 2});
+    for (int i = 0; i < image_width; ++i) {
+        static Color top_color {.red = 0};
+        draw_line_Bresenhams(image, {0, image_height}, {i, 0}, top_color);
+        top_color.red = (top_color.red + 1) % 255;
+
+        static Color bottom_color {.blue = 0};
+        draw_line_Bresenhams(image,
+                             {image_width, 0},
+                             {i, image_height},
+                             bottom_color);
+        bottom_color.blue = (bottom_color.blue + 1) % 255;
+    }
 
     std::ofstream file("Bresenham.ppm");
     image.render(file);
