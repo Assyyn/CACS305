@@ -42,19 +42,20 @@ void draw_line_DDA(Image  &image,
     }
 }
 
-void flood_fill_4_way(Image &image, int x, int y, Color fill, Color interior)
+void flood_fill_4_way(Image &image, Point2D point, Color fill, Color interior)
 {
     // TODO: use stack or queue instead of recursion
-    if (x < 0 || y < 0 || x >= image.width() || y >= image.height()
-        || image.get_pixel(x, y) != interior) {
+    if (point.x < 0 || point.y < 0 || point.x >= image.width()
+        || point.y >= image.height()
+        || image.get_pixel(point.x, point.y) != interior) {
         return;
     }
-    image.put_pixel(x, y, fill);
+    image.put_pixel(point.x, point.y, fill);
 
-    flood_fill_4_way(image, x + 1, y, fill, interior);
-    flood_fill_4_way(image, x - 1, y, fill, interior);
-    flood_fill_4_way(image, x, y + 1, fill, interior);
-    flood_fill_4_way(image, x, y - 1, fill, interior);
+    flood_fill_4_way(image, {point.x + 1, point.y}, fill, interior);
+    flood_fill_4_way(image, {point.x - 1, point.y}, fill, interior);
+    flood_fill_4_way(image, {point.x, point.y + 1}, fill, interior);
+    flood_fill_4_way(image, {point.x, point.y - 1}, fill, interior);
 }
 
 int main()
@@ -66,7 +67,7 @@ int main()
     draw_line_DDA(image,
                   {0, image_height / 2},
                   {image_width, image_height / 2});
-    flood_fill_4_way(image, image_width / 2, 0, Color {.red = 255}, Color {});
+    flood_fill_4_way(image, {1, 0}, Color {.red = 255}, Color {});
 
     std::ofstream file("FloodFill4way.ppm");
     image.render(file);
