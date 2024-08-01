@@ -8,4 +8,7 @@ project(cacs305-framework)
 
 add_subdirectory(src)
 
-add_subdirectory(examples)
+option(CACS305_BUILD_EXAMPLES OFF)
+if(CACS305_BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif()

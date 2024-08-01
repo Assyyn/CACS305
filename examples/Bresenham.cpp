@@ -79,8 +79,8 @@ void draw_line_Bresenhams(Image  &image,
 
 int main()
 {
-    constexpr int image_height = 1'920;
-    constexpr int image_width  = 1'080;
+    constexpr int image_height = 1'080;
+    constexpr int image_width  = 1'920;
     Image         image {image_width, image_height};
 
     for (int i = 0; i < image_width; ++i) {

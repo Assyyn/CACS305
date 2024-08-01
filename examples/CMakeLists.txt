@@ -1,7 +1,7 @@
 link_libraries(image-framework)
 
 function(setup_example source_name)
-    message("ADDING EXAMPLE ${source_name}")
+    message("CACS305: ADDING EXAMPLE ${source_name}...")
     add_executable(${source_name} ${source_name}.cpp)
 endfunction()
 
