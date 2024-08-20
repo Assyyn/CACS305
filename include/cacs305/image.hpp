@@ -37,19 +37,27 @@ struct Point2D
 struct Image
 {
 
-    constexpr Image(int width, int height) : _width {width}, _height {height}
+    constexpr Image(std::size_t width, std::size_t height)
+        : _width {width},
+          _height {height}
     {
-        buf.resize(width * height);
+        buf.resize(_width * _height);
     }
 
-    constexpr int  width() const { return _width; }
+    constexpr std::size_t width() const { return _width; }
 
-    constexpr int  height() const { return _height; }
+    constexpr std::size_t height() const { return _height; }
 
-    constexpr void put_pixel(int x, int y, Color color)
+    constexpr std::size_t index(int x, int y) const { return y * _width + x; }
+
+    constexpr void        put_pixel(int x, int y, Color color)
     {
-        std::size_t idx = y * _width + x;
-        if (idx < 0 || idx > buf.size()) {
+        if (x < 0 || y < 0) {
+            return;
+        }
+
+        std::size_t idx = index(x, y);
+        if (idx > buf.size()) {
             return;
         }
         // index = y * width + x
@@ -58,18 +66,37 @@ struct Image
 
     constexpr Color get_pixel(int x, int y) const
     {
-        std::size_t idx = y * _width + x;
-        if (idx < 0 || idx > buf.size()) {
+        if (x < 0 || y < 0) {
+            return {};
+        }
+
+        std::size_t idx = index(x, y);
+        if (idx > buf.size()) {
             return {};
         }
         return buf[idx];
     }
 
-    void render(std::ostream &out);
+    void        render(std::ostream &out);
+    std::string render() const
+    {
+        std::string result = std::format("P3\n{} {}\n255\n", _width, _height);
+
+        for (int y = 0; y < _height; ++y) {
+            for (int x = 0; x < _width; ++x) {
+                std::format_to(std::back_inserter(result),
+                               "{}\n",
+                               buf[y * _width + x].to_string());
+            }
+            result += '\n';
+        }
+
+        return result;
+    }
 
 private:
-    int                _width;
-    int                _height;
+    std::size_t        _width;
+    std::size_t        _height;
     std::vector<Color> buf;
 };
 
