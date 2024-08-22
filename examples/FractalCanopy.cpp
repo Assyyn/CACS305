@@ -106,8 +106,8 @@ BranchChildren gen_children(const Line2D      &parent,
         assert(new_length > 0);
 
         return {
-            narrow_cast<int>(line.end.x + dx / len * new_length),
-            narrow_cast<int>(line.end.y + dy / len * new_length),
+            narrow_cast<int>(std::round(line.end.x + dx / len * new_length)),
+            narrow_cast<int>(std::round(line.end.y + dy / len * new_length)),
         };
     };
 
@@ -122,12 +122,11 @@ BranchChildren gen_children(const Line2D      &parent,
                   parent.end)},
     };
 }
-static_assert(math::pow(2, 8) == 256);
 
 Canopy gen_canopy(Line2D             root,
                   const math::Degree angle,
                   const double       scale_factor,
-                  std::int64_t       max_depth  = 0xfff,
+                  std::int64_t       max_depth  = 20,
                   const double       min_length = 1)
 {
     assert(scale_factor < 1);
