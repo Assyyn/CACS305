@@ -1,5 +1,10 @@
 link_libraries(image-framework)
 
+if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+    add_compile_options(-fsanitize=address -fsanitize=undefined)
+    add_link_options(-fsanitize=address -fsanitize=undefined)
+endif()
+
 function(setup_example source_name)
     message("CACS305: ADDING EXAMPLE ${source_name}...")
     add_executable(${source_name} ${source_name}.cpp)
