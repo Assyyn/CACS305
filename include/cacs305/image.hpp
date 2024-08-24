@@ -16,7 +16,6 @@ struct Color
     byte        red   = 0;
     byte        green = 0;
     byte        blue  = 0;
-    byte        _;
 
     std::string to_string() const
     {
@@ -64,6 +63,11 @@ struct Image
         buf[idx] = color;
     }
 
+    constexpr void put_pixel(Point2D point, Color color)
+    {
+        put_pixel(point.x, point.y, color);
+    }
+
     constexpr Color get_pixel(int x, int y) const
     {
         if (x < 0 || y < 0) {
@@ -75,6 +79,11 @@ struct Image
             return {};
         }
         return buf[idx];
+    }
+
+    constexpr Color get_pixel(Point2D point)
+    {
+        return get_pixel(point.x, point.y);
     }
 
     void        render(std::ostream &out);
