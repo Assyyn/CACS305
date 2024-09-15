@@ -11,6 +11,7 @@ void draw_line_DDA(Image  &image,
                    Color   color = {.red = 255, .green = 255, .blue = 255})
 {
     if (start == end) {
+        image.put_pixel(start, color);
         return;
     }
 
@@ -38,7 +39,7 @@ void draw_line_DDA(Image  &image,
     for (int i = 1; i <= steps; ++i) {
         x += x_inc;
         y += y_inc;
-        image.put_pixel(x, y, color);
+        image.put_pixel(std::round(x), std::round(y), color);
     }
 }
 

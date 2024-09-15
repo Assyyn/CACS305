@@ -47,8 +47,8 @@ constexpr Point2D rotate_copy(const Point2D &point,
     const auto cos     = std::cos(radians);
     const auto sin     = std::sin(radians);
 
-    return {narrow_cast<int>(dx * cos - dy * sin + center.x),
-            narrow_cast<int>(dx * sin + dy * cos + center.y)};
+    return {narrow_cast<float>(dx * cos - dy * sin + center.x),
+            narrow_cast<float>(dx * sin + dy * cos + center.y)};
 }
 
 
@@ -69,8 +69,8 @@ std::vector<Point2D> line_points(const Line2D &line)
     float                x     = line.start.x;
     float                y     = line.start.y;
     for (auto step = 0; step <= n; step++) {
-        points.emplace_back(Point2D {narrow_cast<int>(std::round(x)),
-                                     narrow_cast<int>(std::round(y))});
+        points.emplace_back(Point2D {narrow_cast<float>(std::round(x)),
+                                     narrow_cast<float>(std::round(y))});
         x += xstep;
         y += ystep;
     }
@@ -106,8 +106,8 @@ BranchChildren gen_children(const Line2D      &parent,
         assert(new_length > 0);
 
         return {
-            narrow_cast<int>(std::round(line.end.x + dx / len * new_length)),
-            narrow_cast<int>(std::round(line.end.y + dy / len * new_length)),
+            narrow_cast<float>(std::round(line.end.x + dx / len * new_length)),
+            narrow_cast<float>(std::round(line.end.y + dy / len * new_length)),
         };
     };
 
