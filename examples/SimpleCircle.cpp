@@ -1,4 +1,3 @@
-#include "cacs305/utilities.hpp"
 #include <cacs305/image.hpp>
 #include <cacs305/math/core.hpp>
 #include <fstream>
@@ -26,19 +25,14 @@ then,   y                   = b + sqrt (r  - (x - a) )
 
     for (int x = center.x - radius; x <= center.x + radius; ++x) {
         int y = math::sqrt(r2 - (x - center.x) * (x - center.x));
-        points.emplace_back(
-            Point2D {narrow_cast<float>(x), narrow_cast<float>(center.y + y)});
-        points.emplace_back(
-            Point2D {narrow_cast<float>(x), narrow_cast<float>(center.y - y)});
+        points.emplace_back(Point2D {x, center.y + y});
+        points.emplace_back(Point2D {x, center.y - y});
     }
 
     return points;
 }
 
-void draw_circle_simple(Image  &image,
-                        float   radius,
-                        Point2D center,
-                        Color   color)
+void draw_circle_simple(Image &image, float radius, Point2D center, Color color)
 {
     for (const auto &point : simple_circle_points(radius, center)) {
         image.put_pixel(point, color);
@@ -60,7 +54,7 @@ int main(int argc, char *argv[])
 
     draw_circle_simple(image,
                        radius,
-                       {img_width / 2.f, img_height / 2.f},
+                       {img_width / 2, img_height / 2},
                        {200, 100, 0});
 
     std::ofstream circle {"simple_circle.ppm"};

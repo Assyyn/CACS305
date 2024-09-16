@@ -1,4 +1,3 @@
-#include "cacs305/utilities.hpp"
 #include <cacs305/image.hpp>
 
 #include <fstream>
@@ -86,13 +85,13 @@ int main()
 
     for (int i = 0; i < image_width; ++i) {
         static Color top_color {.red = 0};
-        draw_line_Bresenhams(image, {0, image_height}, {narrow_cast<float>(i), 0}, top_color);
+        draw_line_Bresenhams(image, {0, image_height}, {i, 0}, top_color);
         top_color.red = (top_color.red + 1) % 255;
 
         static Color bottom_color {.blue = 0};
         draw_line_Bresenhams(image,
                              {image_width, 0},
-                             {narrow_cast<float>(i), image_height},
+                             {i, image_height},
                              bottom_color);
         bottom_color.blue = (bottom_color.blue + 1) % 255;
     }
